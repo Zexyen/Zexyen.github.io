@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>About on Zexyen&#39;s Blog</title>
+    <link>http://blog.zexyen.com/about.html</link>
+    <description>Recent content in About on Zexyen&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 21 Apr 2023 15:12:41 -0400</lastBuildDate><atom:link href="http://blog.zexyen.com/about/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>http://blog.zexyen.com/about/about.html</link>
+      <pubDate>Fri, 21 Apr 2023 15:10:16 -0400</pubDate>
+      
+      <guid>http://blog.zexyen.com/about/about.html</guid>
+      <description>Test ABOUT PAGE</description>
+      <content>&lt;p&gt;Test ABOUT PAGE&lt;/p&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>
