@@ -16,5 +16,3 @@ color = "" #color from the theme settings
 # What's this Writing Thing?
 
 I'll be posting some of my home lab stuff & projects in this blog, while _also_ doing some fun stuff on the side!
-
-![A Wild Me](/images/avatar/avatar.png)
