@@ -2,14 +2,14 @@
 title = "About"
 date = "{{ .Date }}"
 author = "Zexyen"
-cover = "images/avatar/avatar.png"
-tags = ["general"]
+cover = ""
+tags = [""]
 keywords = ["", ""]
-description = "Blogging, In _Style_"
+description = ""
 showFullContent = true
-readingTime = true
-hideComments = false
-color = "blue" #color from the theme settings
+readingTime = false
+hideComments = true
+color = "" #color from the theme settings
 +++
 
 First things first some rapid fire facts:
