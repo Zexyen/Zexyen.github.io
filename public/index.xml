@@ -19,17 +19,6 @@
     </item>
     
     <item>
-      <title>About</title>
-      <link>http://blog.zexyen.com/about/about.html</link>
-      <pubDate>Fri, 21 Apr 2023 15:10:16 -0400</pubDate>
-      
-      <guid>http://blog.zexyen.com/about/about.html</guid>
-      <description>Test ABOUT PAGE</description>
-      <content>&lt;p&gt;Test ABOUT PAGE&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
       <title>A Dog with a Blog</title>
       <link>http://blog.zexyen.com/posts/zexyen.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -38,6 +27,32 @@
       <description>What&amp;rsquo;s this Writing Thing? I&amp;rsquo;ll be posting some of my home lab stuff &amp;amp; projects in this blog, while also doing some fun stuff on the side!</description>
       <content>&lt;h1 id=&#34;whats-this-writing-thing&#34;&gt;What&amp;rsquo;s this Writing Thing?&lt;/h1&gt;
 &lt;p&gt;I&amp;rsquo;ll be posting some of my home lab stuff &amp;amp; projects in this blog, while &lt;em&gt;also&lt;/em&gt; doing some fun stuff on the side!&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>http://blog.zexyen.com/about/about.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://blog.zexyen.com/about/about.html</guid>
+      <description>First things first some rapid fire facts:
+I&amp;rsquo;m 24 I&amp;rsquo;m gay My Pronouns are They/Them or He/Him I like to fuck around with tech I&amp;rsquo;m really into Gunpla With that out of the way let&amp;rsquo;s go ahead and explain some of the points of this blog:
+I&amp;rsquo;ll be posting breakdowns on my homelab projects here I&amp;rsquo;ll also be posting some Gunpla WIPs I might even do some game reviews, Etc. </description>
+      <content>&lt;p&gt;First things first some rapid fire facts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;I&amp;rsquo;m 24&lt;/li&gt;
+&lt;li&gt;I&amp;rsquo;m gay&lt;/li&gt;
+&lt;li&gt;My Pronouns are They/Them or He/Him&lt;/li&gt;
+&lt;li&gt;I like to fuck around with tech&lt;/li&gt;
+&lt;li&gt;I&amp;rsquo;m &lt;em&gt;really&lt;/em&gt; into Gunpla&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;With that out of the way let&amp;rsquo;s go ahead and explain some of the points of this blog:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;I&amp;rsquo;ll be posting breakdowns on my homelab projects here&lt;/li&gt;
+&lt;li&gt;I&amp;rsquo;ll also be posting some Gunpla WIPs&lt;/li&gt;
+&lt;li&gt;I might even do some game reviews, Etc.&lt;/li&gt;
+&lt;/ul&gt;
 </content>
     </item>
     

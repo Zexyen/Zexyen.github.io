@@ -10,11 +10,26 @@
     <item>
       <title>About</title>
       <link>http://blog.zexyen.com/about/about.html</link>
-      <pubDate>Fri, 21 Apr 2023 15:10:16 -0400</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://blog.zexyen.com/about/about.html</guid>
-      <description>Test ABOUT PAGE</description>
-      <content>&lt;p&gt;Test ABOUT PAGE&lt;/p&gt;
+      <description>First things first some rapid fire facts:
+I&amp;rsquo;m 24 I&amp;rsquo;m gay My Pronouns are They/Them or He/Him I like to fuck around with tech I&amp;rsquo;m really into Gunpla With that out of the way let&amp;rsquo;s go ahead and explain some of the points of this blog:
+I&amp;rsquo;ll be posting breakdowns on my homelab projects here I&amp;rsquo;ll also be posting some Gunpla WIPs I might even do some game reviews, Etc. </description>
+      <content>&lt;p&gt;First things first some rapid fire facts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;I&amp;rsquo;m 24&lt;/li&gt;
+&lt;li&gt;I&amp;rsquo;m gay&lt;/li&gt;
+&lt;li&gt;My Pronouns are They/Them or He/Him&lt;/li&gt;
+&lt;li&gt;I like to fuck around with tech&lt;/li&gt;
+&lt;li&gt;I&amp;rsquo;m &lt;em&gt;really&lt;/em&gt; into Gunpla&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;With that out of the way let&amp;rsquo;s go ahead and explain some of the points of this blog:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;I&amp;rsquo;ll be posting breakdowns on my homelab projects here&lt;/li&gt;
+&lt;li&gt;I&amp;rsquo;ll also be posting some Gunpla WIPs&lt;/li&gt;
+&lt;li&gt;I might even do some game reviews, Etc.&lt;/li&gt;
+&lt;/ul&gt;
 </content>
     </item>
     

@@ -39,7 +39,7 @@ a.button {
   border-radius: 8;
   border: 1px solid #23B0FF;
   background: #23B0FF;
-  color: #1d212c;
+  color: #121517;
   font: inherit;
   font-weight: bold;
   appearance: none;
@@ -123,9 +123,9 @@ input, textarea, select {
     box-shadow: none; }
 
 select {
-  background: #1d212c; }
+  background: #121517; }
   select option {
-    background: #1d212c; }
+    background: #121517; }
 
 ::placeholder {
   color: rgba(35, 176, 255, 0.5); }
@@ -203,8 +203,8 @@ select {
     display: none;
     flex-direction: column;
     position: absolute;
-    background: #1d212c;
-    box-shadow: 0 10px rgba(29, 33, 44, 0.8), -10px 10px rgba(29, 33, 44, 0.8), 10px 10px rgba(29, 33, 44, 0.8);
+    background: #121517;
+    box-shadow: 0 10px rgba(18, 21, 23, 0.8), -10px 10px rgba(18, 21, 23, 0.8), 10px 10px rgba(18, 21, 23, 0.8);
     color: white;
     border: 2px solid;
     margin: 0;
@@ -285,7 +285,7 @@ body {
   font-size: 1rem;
   line-height: 1.54;
   letter-spacing: -0.02em;
-  background-color: #1d212c;
+  background-color: #121517;
   color: white;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -358,7 +358,7 @@ figure {
     padding: 5px 10px;
     margin-top: 5px;
     background: #23B0FF;
-    color: #1d212c;
+    color: #121517;
     /* opacity: .8; */ }
     figure figcaption.left {
       text-align: left; }
@@ -487,7 +487,7 @@ ol {
 
 mark {
   background: #23B0FF;
-  color: #1d212c; }
+  color: #121517; }
 
 .container {
   display: flex;
@@ -627,7 +627,7 @@ h1:hover a, h2:hover a, h3:hover a, h4:hover a {
       text-align: center;
       margin: 0 auto;
       padding: 5px 10px;
-      background: #1d212c;
+      background: #121517;
       color: rgba(255, 255, 255, 0.3);
       font-size: .8rem;
       text-transform: uppercase;
