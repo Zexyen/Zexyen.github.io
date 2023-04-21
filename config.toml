@@ -1,6 +1,0 @@
-baseURL = 'http://blog.zexyen.com/'
-languageCode = 'en-us'
-title = 'Zexyens Blog'
-theme = "terminal"
-relativeURLs = true
-uglyURLs = true

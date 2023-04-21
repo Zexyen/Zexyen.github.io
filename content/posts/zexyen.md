@@ -1,16 +1,15 @@
 +++
-title = "Welcome to my Blog!"
-date = "2023-04-21T14:36:20-04:00"
+title = "A Dog with a Blog"
+date = "{{ .Date }}"
 author = "Zexyen"
-authorTwitter = "" #do not include @
 cover = ""
-tags = ["", ""]
+tags = ["general"]
 keywords = ["", ""]
-description = "Things are Heating up!"
+description = "Blogging, In _Style_"
 showFullContent = false
-readingTime = false
+readingTime = true
 hideComments = false
-color = "" #color from the theme settings
+color = "blue" #color from the theme settings
 +++
 
 # What's this Writing Thing?
