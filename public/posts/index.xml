@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Zexyens Blog</title>
+    <link>http://blog.zexyen.com/posts.html</link>
+    <description>Recent content in Posts on Zexyens Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 21 Apr 2023 14:36:20 -0400</lastBuildDate><atom:link href="http://blog.zexyen.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Welcome to my Blog!</title>
+      <link>http://blog.zexyen.com/posts/zexyen.html</link>
+      <pubDate>Fri, 21 Apr 2023 14:36:20 -0400</pubDate>
+      
+      <guid>http://blog.zexyen.com/posts/zexyen.html</guid>
+      <description>What&amp;rsquo;s this Writing Thing? I&amp;rsquo;ll be posting some of my home lab stuff &amp;amp; projects in this blog, while also doing some fun stuff on the side!</description>
+      <content>&lt;h1 id=&#34;whats-this-writing-thing&#34;&gt;What&amp;rsquo;s this Writing Thing?&lt;/h1&gt;
+&lt;p&gt;I&amp;rsquo;ll be posting some of my home lab stuff &amp;amp; projects in this blog, while &lt;em&gt;also&lt;/em&gt; doing some fun stuff on the side!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../images/avatar/avatar.png&#34; alt=&#34;A Wild Me&#34;&gt;&lt;/p&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>
