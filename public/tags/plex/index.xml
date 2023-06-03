@@ -1,60 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Zexyen&#39;s Blog</title>
-    <link>http://blog.zexyen.com/</link>
-    <description>Recent content on Zexyen&#39;s Blog</description>
+    <title>plex on Zexyen&#39;s Blog</title>
+    <link>http://blog.zexyen.com/tags/plex.html</link>
+    <description>Recent content in plex on Zexyen&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Fri, 21 Apr 2023 15:12:41 -0400</lastBuildDate><atom:link href="http://blog.zexyen.com/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title></title>
-      <link>http://blog.zexyen.com/about/about.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://blog.zexyen.com/about/about.html</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
-      <title>A Dog with a Blog</title>
-      <link>http://blog.zexyen.com/posts/zexyen.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://blog.zexyen.com/posts/zexyen.html</guid>
-      <description>What&amp;rsquo;s this Writing Thing? I&amp;rsquo;ll be posting some of my home lab stuff &amp;amp; projects in this blog, while also doing some fun stuff on the side!</description>
-      <content>&lt;h1 id=&#34;whats-this-writing-thing&#34;&gt;What&amp;rsquo;s this Writing Thing?&lt;/h1&gt;
-&lt;p&gt;I&amp;rsquo;ll be posting some of my home lab stuff &amp;amp; projects in this blog, while &lt;em&gt;also&lt;/em&gt; doing some fun stuff on the side!&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>http://blog.zexyen.com/about.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://blog.zexyen.com/about.html</guid>
-      <description>First things first some rapid fire facts:
-I&amp;rsquo;m 24 I&amp;rsquo;m gay My Pronouns are They/Them or He/Him I like to fuck around with tech I&amp;rsquo;m really into Gunpla With that out of the way let&amp;rsquo;s go ahead and explain some of the points of this blog:
-I&amp;rsquo;ll be posting breakdowns on my homelab projects here I&amp;rsquo;ll also be posting some Gunpla WIPs I might even do some game reviews, Etc. </description>
-      <content>&lt;p&gt;First things first some rapid fire facts:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;I&amp;rsquo;m 24&lt;/li&gt;
-&lt;li&gt;I&amp;rsquo;m gay&lt;/li&gt;
-&lt;li&gt;My Pronouns are They/Them or He/Him&lt;/li&gt;
-&lt;li&gt;I like to fuck around with tech&lt;/li&gt;
-&lt;li&gt;I&amp;rsquo;m &lt;em&gt;really&lt;/em&gt; into Gunpla&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;With that out of the way let&amp;rsquo;s go ahead and explain some of the points of this blog:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;I&amp;rsquo;ll be posting breakdowns on my homelab projects here&lt;/li&gt;
-&lt;li&gt;I&amp;rsquo;ll also be posting some Gunpla WIPs&lt;/li&gt;
-&lt;li&gt;I might even do some game reviews, Etc.&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-    </item>
-    
+    <language>en-us</language><atom:link href="http://blog.zexyen.com/tags/plex/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Passing through Intel Arc GPU to LXCs for Transcoding</title>
       <link>http://blog.zexyen.com/posts/arc-transcoding.html</link>
@@ -65,7 +16,7 @@ I&amp;rsquo;ll be posting breakdowns on my homelab projects here I&amp;rsquo;ll 
       <content>&lt;h1 id=&#34;foreword&#34;&gt;Foreword&lt;/h1&gt;
 &lt;p&gt;I have a Proxmox server where all of my homelab applications lives in, It&amp;rsquo;s super complicated with a bunch of random things just strung together in a semi-coherent fashion, but it works. I&amp;rsquo;m currently in the middle of doing a TV-esque broadcasting solution using &lt;a href=&#34;https://ersatztv.org/&#34;&gt;ersatzTV&lt;/a&gt;, which is super cool if you want a continous TV Channel running in Plex. The issue with this however is that it&amp;rsquo;s a continously running FFMPEG stream, which if you scale it up and add more channels to it, will absolutely hammer your CPU. So I decided to buy a GPU &amp;amp; pass it through to the docker LXC containing it.&lt;/p&gt;
 &lt;h2 id=&#34;part-1-mistakes-were-made&#34;&gt;Part 1: Mistakes were made&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&#34;./images/huge_mistake.jpg&#34; alt=&#34;Mistakes were made&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;../../images/huge_mistake.jpg&#34; alt=&#34;Mistakes were made&#34;&gt;
 The proxmox server is running a Ryzen 5600G which was originally purchased with the idea of using the intergrated iGPU for Plex transcodes. Obviously that idea didn&amp;rsquo;t pan out because plex&amp;rsquo;s AMD GPU Support is severely lacking and it never properly worked, and since I never transcoded anyways because 90% of my streams were Direct Play I decided to just not bother dealing with it.&lt;/p&gt;
 &lt;p&gt;In my infinite wisdom I thought that running an Intel Arc GPU Would be infinitely easier to deal with &amp;amp; cheaper than a NVIDIA GPU. &lt;em&gt;I Was Wrong.&lt;/em&gt;&lt;/p&gt;
 &lt;h3 id=&#34;part-2-living-with-your-mistakes&#34;&gt;Part 2: Living with your Mistakes&lt;/h3&gt;

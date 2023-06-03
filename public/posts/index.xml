@@ -18,5 +18,147 @@
 </content>
     </item>
     
+    <item>
+      <title>Passing through Intel Arc GPU to LXCs for Transcoding</title>
+      <link>http://blog.zexyen.com/posts/arc-transcoding.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://blog.zexyen.com/posts/arc-transcoding.html</guid>
+      <description>Foreword I have a Proxmox server where all of my homelab applications lives in, It&amp;rsquo;s super complicated with a bunch of random things just strung together in a semi-coherent fashion, but it works. I&amp;rsquo;m currently in the middle of doing a TV-esque broadcasting solution using ersatzTV, which is super cool if you want a continous TV Channel running in Plex. The issue with this however is that it&amp;rsquo;s a continously running FFMPEG stream, which if you scale it up and add more channels to it, will absolutely hammer your CPU.</description>
+      <content>&lt;h1 id=&#34;foreword&#34;&gt;Foreword&lt;/h1&gt;
+&lt;p&gt;I have a Proxmox server where all of my homelab applications lives in, It&amp;rsquo;s super complicated with a bunch of random things just strung together in a semi-coherent fashion, but it works. I&amp;rsquo;m currently in the middle of doing a TV-esque broadcasting solution using &lt;a href=&#34;https://ersatztv.org/&#34;&gt;ersatzTV&lt;/a&gt;, which is super cool if you want a continous TV Channel running in Plex. The issue with this however is that it&amp;rsquo;s a continously running FFMPEG stream, which if you scale it up and add more channels to it, will absolutely hammer your CPU. So I decided to buy a GPU &amp;amp; pass it through to the docker LXC containing it.&lt;/p&gt;
+&lt;h2 id=&#34;part-1-mistakes-were-made&#34;&gt;Part 1: Mistakes were made&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;../images/huge_mistake.jpg&#34; alt=&#34;Mistakes were made&#34;&gt;
+The proxmox server is running a Ryzen 5600G which was originally purchased with the idea of using the intergrated iGPU for Plex transcodes. Obviously that idea didn&amp;rsquo;t pan out because plex&amp;rsquo;s AMD GPU Support is severely lacking and it never properly worked, and since I never transcoded anyways because 90% of my streams were Direct Play I decided to just not bother dealing with it.&lt;/p&gt;
+&lt;p&gt;In my infinite wisdom I thought that running an Intel Arc GPU Would be infinitely easier to deal with &amp;amp; cheaper than a NVIDIA GPU. &lt;em&gt;I Was Wrong.&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id=&#34;part-2-living-with-your-mistakes&#34;&gt;Part 2: Living with your Mistakes&lt;/h3&gt;
+&lt;p&gt;I quickly figured out that the Arc GPU Support isn&amp;rsquo;t in Linux native till the 6.1 Kernel, which Proxmox thankfully has as a opt-in option for their kernel. You can opt-in to 6.2 by going to your proxmox host&amp;rsquo;s Shell, and run the following commands:&lt;/p&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;1&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;1&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;Terminal&lt;/span&gt;
+      &lt;span class=&#34;collapsable-code__title&#34;&gt;PVE Kernel Update&lt;/span&gt;
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;Show&#34; data-label-collapse=&#34;Hide&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-Terminal&#34; &gt;&lt;code&gt;
+apt update
+apt install pve-kernel-6.2
+reboot
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;p&gt;and now were in 6.2!&lt;/p&gt;
+&lt;p&gt;Next we are going to want to figure out the &lt;code&gt;/dev/dri&lt;/code&gt; numbers for the GPU, which can be found by running &lt;code&gt;ls -l /dev/dri&lt;/code&gt; on your Shell. Below you can see that I got &lt;code&gt;226, 0&lt;/code&gt; &amp;amp; &lt;code&gt;226, 128&lt;/code&gt; respectively on mine.&lt;/p&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;2&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;2&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;terminal&lt;/span&gt;
+      &lt;span class=&#34;collapsable-code__title&#34;&gt;/dev/dri output&lt;/span&gt;
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;Hide&#34; data-label-collapse=&#34;Hide&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-terminal&#34; &gt;&lt;code&gt;
+root@pve:~# ls -l /dev/dri
+total 0
+drwxr-xr-x 2 root root         80 Jun  3 11:41 by-path
+crw-rw---- 1 root video  226,   0 Jun  3 11:41 card0
+crw-rw---- 1 root render 226, 128 Jun  3 11:41 renderD128
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;p&gt;Now that we have those numbers we can go ahead and pass it through to the LXC Containers, which you can do by editing &lt;code&gt;/etc/pve/lxc/&amp;lt;id&amp;gt;.conf&lt;/code&gt; and appending the following:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;lxc.cgroup2.devices.allow: c &amp;lt;numbers found earlier&amp;gt; rwm
+lxc.cgroup2.devices.allow: c &amp;lt;numbers found earlier&amp;gt; rwm
+lxc.cgroup2.devices.allow: c 29:0 rwm
+lxc.mount.entry: /dev/fb0 dev/fb0 none bind,optional,create=file
+lxc.mount.entry: /dev/dri dev/dri none bind,optional,create=dir
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It should come out like this example config:
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;3&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;3&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;crlf&lt;/span&gt;
+      &lt;span class=&#34;collapsable-code__title&#34;&gt;Plex LXC Config&lt;/span&gt;
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;Hide&#34; data-label-collapse=&#34;Hide&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-crlf&#34; &gt;&lt;code&gt;
+arch: amd64
+cores: 12
+features: mount=nfs;cifs,nesting=1
+hostname: plex
+memory: 3050
+mp0: /mnt/pve/plex,mp=/media/plex
+net0: name=eth0,bridge=vmbr0,gw=10.10.10.1,type=veth
+onboot: 1
+ostype: ubuntu
+rootfs: local-lvm:vm-110-disk-0,size=151G
+swap: 1536
+lxc.cgroup2.devices.allow: c 226:0 rwm
+lxc.cgroup2.devices.allow: c 226:128 rwm
+lxc.cgroup2.devices.allow: c 29:0 rwm
+lxc.mount.entry: /dev/fb0 dev/fb0 none bind,optional,create=file
+lxc.mount.entry: /dev/dri dev/dri none bind,optional,create=dir
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+&lt;/p&gt;
+&lt;p&gt;And once you have that edited you can go ahead and restart the container.&lt;/p&gt;
+&lt;p&gt;After Restarting you&amp;rsquo;re going to want to make sure that the User Plex runs under has access to your GPU by running &lt;code&gt;gpasswd -a plex render&lt;/code&gt; &amp;amp; &lt;code&gt;gpasswd -a plex video&lt;/code&gt; &lt;strong&gt;In the container&lt;/strong&gt;. You&amp;rsquo;ll know the GPU was properly passthrough (passthroughed?) when you run &lt;code&gt;hwinfo --display&lt;/code&gt; (which can be installed with &lt;code&gt; apt-get install hwinfo&lt;/code&gt;) and see this as the output:&lt;/p&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;4&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;4&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;terminal&lt;/span&gt;
+      &lt;span class=&#34;collapsable-code__title&#34;&gt;hwinfo readout&lt;/span&gt;
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;Hide&#34; data-label-collapse=&#34;Hide&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-terminal&#34; &gt;&lt;code&gt;
+root@plex:~# hwinfo --display
+06: PCI 300.0: 0300 VGA compatible controller (VGA)             
+  [Created at pci.386]
+  Unique ID: svHJ.28Q6RjwKYw7
+  Parent ID: GA8e.mr2N3fBJq5F
+  SysFS ID: /devices/pci0000:00/0000:00:01.1/0000:01:00.0/0000:02:01.0/0000:03:00.0
+  SysFS BusID: 0000:03:00.0
+  Hardware Class: graphics card
+  Model: &amp;#34;Intel VGA compatible controller&amp;#34;
+  Vendor: pci 0x8086 &amp;#34;Intel Corporation&amp;#34;
+  Device: pci 0x56a5 
+  SubVendor: pci 0x1849 &amp;#34;ASRock Incorporation&amp;#34;
+  SubDevice: pci 0x6004 
+  Revision: 0x05
+  Driver: &amp;#34;i915&amp;#34;
+  Driver Modules: &amp;#34;i915&amp;#34;
+  Memory Range: 0xfa000000-0xfaffffff (rw,non-prefetchable)
+  Memory Range: 0x7c00000000-0x7dffffffff (ro,non-prefetchable)
+  Memory Range: 0xfb000000-0xfb1fffff (ro,non-prefetchable,disabled)
+  IRQ: 119 (259700 events)
+  Module Alias: &amp;#34;pci:v00008086d000056A5sv00001849sd00006004bc03sc00i00&amp;#34;
+  Config Status: cfg=new, avail=yes, need=no, active=unknown
+  Attached to: #44 (PCI bridge)
+
+Primary display adapter: #6
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;h3 id=&#34;part-3-how-i-learned-to-appreciate-what-i-have&#34;&gt;Part 3: How I learned to appreciate what I have&lt;/h3&gt;
+&lt;p&gt;Now in Plex you can go ahead and run any video through the WebUI, which should force it to transcode and you can confirm in the dashboard if it&amp;rsquo;s using your GPU or CPU.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://images.zexyen.com/Images/2023/06-03/ZAzVA6.png&#34; alt=&#34;Plex Dashboard HW Transcode&#34;&gt;&lt;/p&gt;
+&lt;p&gt;If it&amp;rsquo;s listing the transcode as &lt;code&gt;Transcode (hw)&lt;/code&gt; then congrats! It&amp;rsquo;s working.&lt;/p&gt;
+</content>
+    </item>
+    
   </channel>
 </rss>

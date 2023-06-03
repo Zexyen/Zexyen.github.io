@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Passing through Intel Arc GPU to LXCs for Transcoding :: Zexyen&#39;s Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="How being an early adopter sucks" />
+<meta name="keywords" content="proxmox, plex, transcoding, Intel" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="http://blog.zexyen.com/posts/arc-transcoding.html" />
+
+
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="http://blog.zexyen.com/css/orange-local.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="http://blog.zexyen.com/favicon.ico">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Passing through Intel Arc GPU to LXCs for Transcoding">
+<meta property="og:description" content="How being an early adopter sucks" />
+<meta property="og:url" content="http://blog.zexyen.com/posts/arc-transcoding.html" />
+<meta property="og:site_name" content="Zexyen&#39;s Blog" />
+
+  
+  
+  <meta property="og:image" content="http://blog.zexyen.com/">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="../">
+  <div class="logo">
+    Home
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="../about">About</a></li>
+        
+      
+        
+          <li><a href="../showcase">Showcase</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="../about" >About</a></li>
+        
+      
+        
+          <li><a href="../showcase" >Showcase</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.zexyen.com/posts/arc-transcoding.html">Passing through Intel Arc GPU to LXCs for Transcoding</a>
+  </h1>
+  <div class="post-meta">
+    
+    
+      <span class="post-author">Zexyen</span>
+    
+    
+      <span class="post-reading-time">:: 4 min read (688 words)</span>
+    
+  </div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="http://blog.zexyen.com/tags/proxmox/">proxmox</a>&nbsp;
+      
+      #<a href="http://blog.zexyen.com/tags/plex/">plex</a>&nbsp;
+      
+      #<a href="http://blog.zexyen.com/tags/transcoding/">transcoding</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <h1 id="foreword">Foreword<a href="#foreword" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>I have a Proxmox server where all of my homelab applications lives in, It&rsquo;s super complicated with a bunch of random things just strung together in a semi-coherent fashion, but it works. I&rsquo;m currently in the middle of doing a TV-esque broadcasting solution using <a href="https://ersatztv.org/">ersatzTV</a>, which is super cool if you want a continous TV Channel running in Plex. The issue with this however is that it&rsquo;s a continously running FFMPEG stream, which if you scale it up and add more channels to it, will absolutely hammer your CPU. So I decided to buy a GPU &amp; pass it through to the docker LXC containing it.</p>
+<h2 id="part-1-mistakes-were-made">Part 1: Mistakes were made<a href="#part-1-mistakes-were-made" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p><img src="../images/huge_mistake.jpg" alt="Mistakes were made">
+The proxmox server is running a Ryzen 5600G which was originally purchased with the idea of using the intergrated iGPU for Plex transcodes. Obviously that idea didn&rsquo;t pan out because plex&rsquo;s AMD GPU Support is severely lacking and it never properly worked, and since I never transcoded anyways because 90% of my streams were Direct Play I decided to just not bother dealing with it.</p>
+<p>In my infinite wisdom I thought that running an Intel Arc GPU Would be infinitely easier to deal with &amp; cheaper than a NVIDIA GPU. <em>I Was Wrong.</em></p>
+<h3 id="part-2-living-with-your-mistakes">Part 2: Living with your Mistakes<a href="#part-2-living-with-your-mistakes" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>I quickly figured out that the Arc GPU Support isn&rsquo;t in Linux native till the 6.1 Kernel, which Proxmox thankfully has as a opt-in option for their kernel. You can opt-in to 6.2 by going to your proxmox host&rsquo;s Shell, and run the following commands:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="1" type="checkbox"  />
+    <label for="1">
+      <span class="collapsable-code__language">Terminal</span>
+      <span class="collapsable-code__title">PVE Kernel Update</span>
+      <span class="collapsable-code__toggle" data-label-expand="Show" data-label-collapse="Hide"></span>
+    </label>
+    <pre class="language-Terminal" ><code>
+apt update
+apt install pve-kernel-6.2
+reboot
+</code></pre>
+  </div>
+
+
+<p>and now were in 6.2!</p>
+<p>Next we are going to want to figure out the <code>/dev/dri</code> numbers for the GPU, which can be found by running <code>ls -l /dev/dri</code> on your Shell. Below you can see that I got <code>226, 0</code> &amp; <code>226, 128</code> respectively on mine.</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="2" type="checkbox"  />
+    <label for="2">
+      <span class="collapsable-code__language">terminal</span>
+      <span class="collapsable-code__title">/dev/dri output</span>
+      <span class="collapsable-code__toggle" data-label-expand="Hide" data-label-collapse="Hide"></span>
+    </label>
+    <pre class="language-terminal" ><code>
+root@pve:~# ls -l /dev/dri
+total 0
+drwxr-xr-x 2 root root         80 Jun  3 11:41 by-path
+crw-rw---- 1 root video  226,   0 Jun  3 11:41 card0
+crw-rw---- 1 root render 226, 128 Jun  3 11:41 renderD128
+</code></pre>
+  </div>
+
+
+<p>Now that we have those numbers we can go ahead and pass it through to the LXC Containers, which you can do by editing <code>/etc/pve/lxc/&lt;id&gt;.conf</code> and appending the following:</p>
+<pre tabindex="0"><code>lxc.cgroup2.devices.allow: c &lt;numbers found earlier&gt; rwm
+lxc.cgroup2.devices.allow: c &lt;numbers found earlier&gt; rwm
+lxc.cgroup2.devices.allow: c 29:0 rwm
+lxc.mount.entry: /dev/fb0 dev/fb0 none bind,optional,create=file
+lxc.mount.entry: /dev/dri dev/dri none bind,optional,create=dir
+</code></pre><p>It should come out like this example config:
+
+
+
+  <div class="collapsable-code">
+    <input id="3" type="checkbox"  />
+    <label for="3">
+      <span class="collapsable-code__language">crlf</span>
+      <span class="collapsable-code__title">Plex LXC Config</span>
+      <span class="collapsable-code__toggle" data-label-expand="Hide" data-label-collapse="Hide"></span>
+    </label>
+    <pre class="language-crlf" ><code>
+arch: amd64
+cores: 12
+features: mount=nfs;cifs,nesting=1
+hostname: plex
+memory: 3050
+mp0: /mnt/pve/plex,mp=/media/plex
+net0: name=eth0,bridge=vmbr0,gw=10.10.10.1,type=veth
+onboot: 1
+ostype: ubuntu
+rootfs: local-lvm:vm-110-disk-0,size=151G
+swap: 1536
+lxc.cgroup2.devices.allow: c 226:0 rwm
+lxc.cgroup2.devices.allow: c 226:128 rwm
+lxc.cgroup2.devices.allow: c 29:0 rwm
+lxc.mount.entry: /dev/fb0 dev/fb0 none bind,optional,create=file
+lxc.mount.entry: /dev/dri dev/dri none bind,optional,create=dir
+</code></pre>
+  </div>
+
+</p>
+<p>And once you have that edited you can go ahead and restart the container.</p>
+<p>After Restarting you&rsquo;re going to want to make sure that the User Plex runs under has access to your GPU by running <code>gpasswd -a plex render</code> &amp; <code>gpasswd -a plex video</code> <strong>In the container</strong>. You&rsquo;ll know the GPU was properly passthrough (passthroughed?) when you run <code>hwinfo --display</code> (which can be installed with <code> apt-get install hwinfo</code>) and see this as the output:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="4" type="checkbox"  />
+    <label for="4">
+      <span class="collapsable-code__language">terminal</span>
+      <span class="collapsable-code__title">hwinfo readout</span>
+      <span class="collapsable-code__toggle" data-label-expand="Hide" data-label-collapse="Hide"></span>
+    </label>
+    <pre class="language-terminal" ><code>
+root@plex:~# hwinfo --display
+06: PCI 300.0: 0300 VGA compatible controller (VGA)             
+  [Created at pci.386]
+  Unique ID: svHJ.28Q6RjwKYw7
+  Parent ID: GA8e.mr2N3fBJq5F
+  SysFS ID: /devices/pci0000:00/0000:00:01.1/0000:01:00.0/0000:02:01.0/0000:03:00.0
+  SysFS BusID: 0000:03:00.0
+  Hardware Class: graphics card
+  Model: &#34;Intel VGA compatible controller&#34;
+  Vendor: pci 0x8086 &#34;Intel Corporation&#34;
+  Device: pci 0x56a5 
+  SubVendor: pci 0x1849 &#34;ASRock Incorporation&#34;
+  SubDevice: pci 0x6004 
+  Revision: 0x05
+  Driver: &#34;i915&#34;
+  Driver Modules: &#34;i915&#34;
+  Memory Range: 0xfa000000-0xfaffffff (rw,non-prefetchable)
+  Memory Range: 0x7c00000000-0x7dffffffff (ro,non-prefetchable)
+  Memory Range: 0xfb000000-0xfb1fffff (ro,non-prefetchable,disabled)
+  IRQ: 119 (259700 events)
+  Module Alias: &#34;pci:v00008086d000056A5sv00001849sd00006004bc03sc00i00&#34;
+  Config Status: cfg=new, avail=yes, need=no, active=unknown
+  Attached to: #44 (PCI bridge)
+
+Primary display adapter: #6
+</code></pre>
+  </div>
+
+
+<h3 id="part-3-how-i-learned-to-appreciate-what-i-have">Part 3: How I learned to appreciate what I have<a href="#part-3-how-i-learned-to-appreciate-what-i-have" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Now in Plex you can go ahead and run any video through the WebUI, which should force it to transcode and you can confirm in the dashboard if it&rsquo;s using your GPU or CPU.</p>
+<p><img src="https://images.zexyen.com/Images/2023/06-03/ZAzVA6.png" alt="Plex Dashboard HW Transcode"></p>
+<p>If it&rsquo;s listing the transcode as <code>Transcode (hw)</code> then congrats! It&rsquo;s working.</p>
+
+      </div></div>
+
+  
+    
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read other posts</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        <span class="button previous">
+            <a href="http://blog.zexyen.com/posts/zexyen.html">
+                <span class="button__icon">←</span>
+                <span class="button__text">A Dog with a Blog</span>
+            </a>
+        </span>
+        
+        
+    </div>
+</div>
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2023 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="../bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>
