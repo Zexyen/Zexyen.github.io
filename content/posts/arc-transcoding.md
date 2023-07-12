@@ -46,13 +46,16 @@ crw-rw---- 1 root render 226, 128 Jun  3 11:41 renderD128
 {{< /code >}}
 
 Now that we have those numbers we can go ahead and pass it through to the LXC Containers, which you can do by editing `/etc/pve/lxc/<id>.conf` and appending the following:
+
 ```
+
 lxc.cgroup2.devices.allow: c <numbers found earlier> rwm
 lxc.cgroup2.devices.allow: c <numbers found earlier> rwm
 lxc.cgroup2.devices.allow: c 29:0 rwm
 lxc.mount.entry: /dev/fb0 dev/fb0 none bind,optional,create=file
 lxc.mount.entry: /dev/dri dev/dri none bind,optional,create=dir
 ```
+
 It should come out like this example config:
 {{< code language="crlf" title="Plex LXC Config" id="3" expand="Hide" collapse="Hide" isCollapsed="false">}}
 arch: amd64
@@ -75,11 +78,11 @@ lxc.mount.entry: /dev/dri dev/dri none bind,optional,create=dir
 
 And once you have that edited you can go ahead and restart the container.
 
-After Restarting you're going to want to make sure that the User Plex runs under has access to your GPU by running `gpasswd -a plex render` & `gpasswd -a plex video` __In the container__. You'll know the GPU was properly passthrough (passthroughed?) when you run `hwinfo --display` (which can be installed with ` apt-get install hwinfo`) and see this as the output:
+After Restarting you're going to want to make sure that the User Plex runs under has access to your GPU by running `gpasswd -a plex render` & `gpasswd -a plex video` __In the container__. You'll know the GPU was properly passthrough (passthroughed?) when you run `hwinfo --display` (which can be installed with `apt-get install hwinfo` ) and see this as the output:
 
 {{< code language="terminal" title="hwinfo readout" id="4" expand="Hide" collapse="Hide" isCollapsed="false">}}
 root@plex:~# hwinfo --display
-06: PCI 300.0: 0300 VGA compatible controller (VGA)             
+06: PCI 300.0: 0300 VGA compatible controller (VGA)
   [Created at pci.386]
   Unique ID: svHJ.28Q6RjwKYw7
   Parent ID: GA8e.mr2N3fBJq5F
@@ -88,9 +91,9 @@ root@plex:~# hwinfo --display
   Hardware Class: graphics card
   Model: "Intel VGA compatible controller"
   Vendor: pci 0x8086 "Intel Corporation"
-  Device: pci 0x56a5 
+  Device: pci 0x56a5
   SubVendor: pci 0x1849 "ASRock Incorporation"
-  SubDevice: pci 0x6004 
+  SubDevice: pci 0x6004
   Revision: 0x05
   Driver: "i915"
   Driver Modules: "i915"
@@ -105,12 +108,10 @@ root@plex:~# hwinfo --display
 Primary display adapter: #6
 {{< /code >}}
 
-### Part 3: How I learned to appreciate what I have
+#### Part 3: How I learned to appreciate what I have
 
 Now in Plex you can go ahead and run any video through the WebUI, which should force it to transcode and you can confirm in the dashboard if it's using your GPU or CPU.
 
 ![Plex Dashboard HW Transcode](https://images.zexyen.com/Images/2023/06-03/ZAzVA6.png)
 
 If it's listing the transcode as `Transcode (hw)` then congrats! It's working.
-
-

@@ -135,7 +135,7 @@
       <span class="post-author">Zexyen</span>
     
     
-      <span class="post-reading-time">:: 4 min read (688 words)</span>
+      <span class="post-reading-time">:: 4 min read (689 words)</span>
     
   </div>
 
@@ -205,7 +205,8 @@ crw-rw---- 1 root render 226, 128 Jun  3 11:41 renderD128
 
 
 <p>Now that we have those numbers we can go ahead and pass it through to the LXC Containers, which you can do by editing <code>/etc/pve/lxc/&lt;id&gt;.conf</code> and appending the following:</p>
-<pre tabindex="0"><code>lxc.cgroup2.devices.allow: c &lt;numbers found earlier&gt; rwm
+<pre tabindex="0"><code>
+lxc.cgroup2.devices.allow: c &lt;numbers found earlier&gt; rwm
 lxc.cgroup2.devices.allow: c &lt;numbers found earlier&gt; rwm
 lxc.cgroup2.devices.allow: c 29:0 rwm
 lxc.mount.entry: /dev/fb0 dev/fb0 none bind,optional,create=file
@@ -243,7 +244,7 @@ lxc.mount.entry: /dev/dri dev/dri none bind,optional,create=dir
 
 </p>
 <p>And once you have that edited you can go ahead and restart the container.</p>
-<p>After Restarting you&rsquo;re going to want to make sure that the User Plex runs under has access to your GPU by running <code>gpasswd -a plex render</code> &amp; <code>gpasswd -a plex video</code> <strong>In the container</strong>. You&rsquo;ll know the GPU was properly passthrough (passthroughed?) when you run <code>hwinfo --display</code> (which can be installed with <code> apt-get install hwinfo</code>) and see this as the output:</p>
+<p>After Restarting you&rsquo;re going to want to make sure that the User Plex runs under has access to your GPU by running <code>gpasswd -a plex render</code> &amp; <code>gpasswd -a plex video</code> <strong>In the container</strong>. You&rsquo;ll know the GPU was properly passthrough (passthroughed?) when you run <code>hwinfo --display</code> (which can be installed with <code>apt-get install hwinfo</code> ) and see this as the output:</p>
 
 
 
@@ -256,7 +257,7 @@ lxc.mount.entry: /dev/dri dev/dri none bind,optional,create=dir
     </label>
     <pre class="language-terminal" ><code>
 root@plex:~# hwinfo --display
-06: PCI 300.0: 0300 VGA compatible controller (VGA)             
+06: PCI 300.0: 0300 VGA compatible controller (VGA)
   [Created at pci.386]
   Unique ID: svHJ.28Q6RjwKYw7
   Parent ID: GA8e.mr2N3fBJq5F
@@ -265,9 +266,9 @@ root@plex:~# hwinfo --display
   Hardware Class: graphics card
   Model: &#34;Intel VGA compatible controller&#34;
   Vendor: pci 0x8086 &#34;Intel Corporation&#34;
-  Device: pci 0x56a5 
+  Device: pci 0x56a5
   SubVendor: pci 0x1849 &#34;ASRock Incorporation&#34;
-  SubDevice: pci 0x6004 
+  SubDevice: pci 0x6004
   Revision: 0x05
   Driver: &#34;i915&#34;
   Driver Modules: &#34;i915&#34;
@@ -284,7 +285,7 @@ Primary display adapter: #6
   </div>
 
 
-<h3 id="part-3-how-i-learned-to-appreciate-what-i-have">Part 3: How I learned to appreciate what I have<a href="#part-3-how-i-learned-to-appreciate-what-i-have" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h4 id="part-3-how-i-learned-to-appreciate-what-i-have">Part 3: How I learned to appreciate what I have<a href="#part-3-how-i-learned-to-appreciate-what-i-have" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>Now in Plex you can go ahead and run any video through the WebUI, which should force it to transcode and you can confirm in the dashboard if it&rsquo;s using your GPU or CPU.</p>
 <p><img src="https://images.zexyen.com/Images/2023/06-03/ZAzVA6.png" alt="Plex Dashboard HW Transcode"></p>
 <p>If it&rsquo;s listing the transcode as <code>Transcode (hw)</code> then congrats! It&rsquo;s working.</p>
@@ -301,9 +302,9 @@ Primary display adapter: #6
     <div class="pagination__buttons">
         
         <span class="button previous">
-            <a href="http://blog.zexyen.com/posts/zexyen.html">
+            <a href="http://blog.zexyen.com/posts/fediverse-and-you.html">
                 <span class="button__icon">←</span>
-                <span class="button__text">A Dog with a Blog</span>
+                <span class="button__text">Fediverse &amp; You - A Primer on the new Hotness</span>
             </a>
         </span>
         
