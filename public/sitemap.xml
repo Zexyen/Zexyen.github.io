@@ -10,13 +10,15 @@
   </url><url>
     <loc>http://blog.zexyen.com/about/about.html</loc>
   </url><url>
-    <loc>http://blog.zexyen.com/posts/zexyen.html</loc>
-  </url><url>
     <loc>http://blog.zexyen.com/about.html</loc>
   </url><url>
     <loc>http://blog.zexyen.com/categories.html</loc>
   </url><url>
-    <loc>http://blog.zexyen.com/tags/general.html</loc>
+    <loc>http://blog.zexyen.com/tags/fediverse.html</loc>
+  </url><url>
+    <loc>http://blog.zexyen.com/posts/fediverse-and-you.html</loc>
+  </url><url>
+    <loc>http://blog.zexyen.com/tags/mastodon.html</loc>
   </url><url>
     <loc>http://blog.zexyen.com/posts/arc-transcoding.html</loc>
   </url><url>

@@ -5,7 +5,7 @@
     <link>http://blog.zexyen.com/tags/transcoding.html</link>
     <description>Recent content in transcoding on Zexyen&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="http://blog.zexyen.com/tags/transcoding/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language><atom:link href="http://blog.zexyen.com/tags/transcoding/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Passing through Intel Arc GPU to LXCs for Transcoding</title>
       <link>http://blog.zexyen.com/posts/arc-transcoding.html</link>
@@ -62,7 +62,8 @@ crw-rw---- 1 root render 226, 128 Jun  3 11:41 renderD128
 
 
 &lt;p&gt;Now that we have those numbers we can go ahead and pass it through to the LXC Containers, which you can do by editing &lt;code&gt;/etc/pve/lxc/&amp;lt;id&amp;gt;.conf&lt;/code&gt; and appending the following:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;lxc.cgroup2.devices.allow: c &amp;lt;numbers found earlier&amp;gt; rwm
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
+lxc.cgroup2.devices.allow: c &amp;lt;numbers found earlier&amp;gt; rwm
 lxc.cgroup2.devices.allow: c &amp;lt;numbers found earlier&amp;gt; rwm
 lxc.cgroup2.devices.allow: c 29:0 rwm
 lxc.mount.entry: /dev/fb0 dev/fb0 none bind,optional,create=file
@@ -100,7 +101,7 @@ lxc.mount.entry: /dev/dri dev/dri none bind,optional,create=dir
 
 &lt;/p&gt;
 &lt;p&gt;And once you have that edited you can go ahead and restart the container.&lt;/p&gt;
-&lt;p&gt;After Restarting you&amp;rsquo;re going to want to make sure that the User Plex runs under has access to your GPU by running &lt;code&gt;gpasswd -a plex render&lt;/code&gt; &amp;amp; &lt;code&gt;gpasswd -a plex video&lt;/code&gt; &lt;strong&gt;In the container&lt;/strong&gt;. You&amp;rsquo;ll know the GPU was properly passthrough (passthroughed?) when you run &lt;code&gt;hwinfo --display&lt;/code&gt; (which can be installed with &lt;code&gt; apt-get install hwinfo&lt;/code&gt;) and see this as the output:&lt;/p&gt;
+&lt;p&gt;After Restarting you&amp;rsquo;re going to want to make sure that the User Plex runs under has access to your GPU by running &lt;code&gt;gpasswd -a plex render&lt;/code&gt; &amp;amp; &lt;code&gt;gpasswd -a plex video&lt;/code&gt; &lt;strong&gt;In the container&lt;/strong&gt;. You&amp;rsquo;ll know the GPU was properly passthrough (passthroughed?) when you run &lt;code&gt;hwinfo --display&lt;/code&gt; (which can be installed with &lt;code&gt;apt-get install hwinfo&lt;/code&gt; ) and see this as the output:&lt;/p&gt;
 
 
 
@@ -113,7 +114,7 @@ lxc.mount.entry: /dev/dri dev/dri none bind,optional,create=dir
     &lt;/label&gt;
     &lt;pre class=&#34;language-terminal&#34; &gt;&lt;code&gt;
 root@plex:~# hwinfo --display
-06: PCI 300.0: 0300 VGA compatible controller (VGA)             
+06: PCI 300.0: 0300 VGA compatible controller (VGA)
   [Created at pci.386]
   Unique ID: svHJ.28Q6RjwKYw7
   Parent ID: GA8e.mr2N3fBJq5F
@@ -122,9 +123,9 @@ root@plex:~# hwinfo --display
   Hardware Class: graphics card
   Model: &amp;#34;Intel VGA compatible controller&amp;#34;
   Vendor: pci 0x8086 &amp;#34;Intel Corporation&amp;#34;
-  Device: pci 0x56a5 
+  Device: pci 0x56a5
   SubVendor: pci 0x1849 &amp;#34;ASRock Incorporation&amp;#34;
-  SubDevice: pci 0x6004 
+  SubDevice: pci 0x6004
   Revision: 0x05
   Driver: &amp;#34;i915&amp;#34;
   Driver Modules: &amp;#34;i915&amp;#34;
@@ -141,7 +142,7 @@ Primary display adapter: #6
   &lt;/div&gt;
 
 
-&lt;h3 id=&#34;part-3-how-i-learned-to-appreciate-what-i-have&#34;&gt;Part 3: How I learned to appreciate what I have&lt;/h3&gt;
+&lt;h4 id=&#34;part-3-how-i-learned-to-appreciate-what-i-have&#34;&gt;Part 3: How I learned to appreciate what I have&lt;/h4&gt;
 &lt;p&gt;Now in Plex you can go ahead and run any video through the WebUI, which should force it to transcode and you can confirm in the dashboard if it&amp;rsquo;s using your GPU or CPU.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://images.zexyen.com/Images/2023/06-03/ZAzVA6.png&#34; alt=&#34;Plex Dashboard HW Transcode&#34;&gt;&lt;/p&gt;
 &lt;p&gt;If it&amp;rsquo;s listing the transcode as &lt;code&gt;Transcode (hw)&lt;/code&gt; then congrats! It&amp;rsquo;s working.&lt;/p&gt;

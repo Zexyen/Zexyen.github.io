@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "styles.css",
-	"sourceRoot": "C:/Users/Zexyen/github projects/Zexyen.github.io",
+	"sourceRoot": "C:/Users/zexyen/Github/Zexyen.github.io",
 	"sources": [
 		"css/base.scss",
 		"themes/terminal/assets/css/variables.scss",
