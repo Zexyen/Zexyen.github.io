@@ -10,6 +10,7 @@ showFullContent = false
 readingTime = true
 hideComments = false
 color = "orange" #color from the theme settings
+draft = true
 +++
 
 # But Why
