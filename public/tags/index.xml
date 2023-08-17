@@ -7,6 +7,26 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language><atom:link href="http://blog.zexyen.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>CloudFlare</title>
+      <link>http://blog.zexyen.com/tags/cloudflare.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://blog.zexyen.com/tags/cloudflare.html</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>DNS</title>
+      <link>http://blog.zexyen.com/tags/dns.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://blog.zexyen.com/tags/dns.html</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
       <title>plex</title>
       <link>http://blog.zexyen.com/tags/plex.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -22,6 +42,16 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://blog.zexyen.com/tags/proxmox.html</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Self-Host</title>
+      <link>http://blog.zexyen.com/tags/self-host.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://blog.zexyen.com/tags/self-host.html</guid>
       <description></description>
       <content></content>
     </item>
